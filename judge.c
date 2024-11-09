@@ -8,8 +8,21 @@ int none = 0;
 
 int directions[8][2] = { {1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1} };
 
+/**
+ * @brief 判断落子后的胜负
+ * @param m (x,y)数对
+ * @param color 棋子颜色常量（BLACK or WHITE）
+ * @retval 0 暂时无胜负
+ * @retval 1 黑棋连成五子，胜出
+ * @retval 2 白棋连成五子，胜出
+ * @retval 3 黑棋下出禁手，白棋胜
+ */
 int judgeWin(int m[], int color)
 {
+    int ban = 0;
+    if (color == BLACK)
+        ban = BanMove(m[0], m[1]);
+    if (ban != 0)return 3;
 	int nums[4];
 	int i;
 	for (i = 0; i < 4; i++) 
@@ -17,11 +30,25 @@ int judgeWin(int m[], int color)
 		nums[i] = directionCount(m, color, i) + directionCount(m, color, i + 4);
 	}
 	int fiveInLine = (nums[0] > 4) || (nums[1] > 4) || (nums[2] > 4) || (nums[3] > 4);
-	int longline = (nums[0] > 5) || (nums[1] > 5) || (nums[2] > 5) || (nums[3] > 5) || (color == BLACK);
+    if (fiveInLine == 0) {
+        return 0;
+    }
+    else if (fiveInLine == 1) {
+        if (color == BLACK)
+            return 1;
+        else
+            return 2;
+    }
 }
 
 
-
+/**
+ * @brief 计算某一方向上的连子数量
+ * @param[in] m (x,y)数对
+ * @param[in] color 棋子颜色常量（BLACK or WHITE）
+ * @param[in] dir 代表计数的方向，分别为1，2，3，4
+ * @retval 连子数量
+ */
 int directionCount(int m[], int color, int dir)
 {
 	int num = 0;
@@ -40,7 +67,6 @@ int directionCount(int m[], int color, int dir)
 
 /**
  * @brief 禁手规则检查
- * @param[in] Board    棋盘二级指针
  * @param[in] x_row    要检查点的行坐标
  * @param[in] y_column 要检查点的列坐标
  * @retval 0 无禁手
@@ -64,7 +90,6 @@ int BanMove(int x_row, int y_column)
 
 /**
  * @brief 三三禁手检查
- * @param[in] Board    棋盘二级指针
  * @param[in] x_row    要检查点的行坐标
  * @param[in] y_column 要检查点的列坐标
  * @retval 0 无禁手
@@ -141,7 +166,7 @@ int ThreeBan(int x_row, int y_column)
     for (i = 0; i < 9; x++, i++) {
         if (x < 0 || x >= ROW) //超出棋盘则跳出
             continue;
-        chess[i] = Board[x][y] + 48;
+        chess[i] = Board[x][y]%10 + 48;
     }
     //检查"活三"的情况
     addr = strstr(chess, "01110") - chess; //配对字符串在原字符串的下标
@@ -199,7 +224,7 @@ int ThreeBan(int x_row, int y_column)
     for (i = 0; i < 9; x++, y--, i++) {
         if (x < 0 || x >= ROW || y < 0 || y >= COLUMN) //超出棋盘则跳出
             continue;
-        chess[i] = Board[x][y] + 48;
+        chess[i] = Board[x][y]%10 + 48;
     }
     //检查"活三"的情况
     addr = strstr(chess, "01110") - chess; //配对字符串在原字符串的下标
@@ -257,7 +282,7 @@ int ThreeBan(int x_row, int y_column)
     for (i = 0; i < 9; x++, y++, i++) {
         if (x < 0 || x >= ROW || y < 0 || y >= COLUMN) //超出棋盘则跳出
             continue;
-        chess[i] = Board[x][y] + 48;
+        chess[i] = Board[x][y]%10 + 48;
     }
     //检查"活三"的情况
     addr = strstr(chess, "01110") - chess; //配对字符串在原字符串的下标
@@ -311,3 +336,99 @@ int ThreeBan(int x_row, int y_column)
     return count > 1 ? 1 : 0;  //若超过1个活三/跳三, 返回1; 否则返回0
 
 }
+
+/**
+ * @brief 四四禁手检查
+ * @param[in] x_row    要检查点的行坐标
+ * @param[in] y_column 要检查点的列坐标
+ * @retval 0 无禁手
+ * @retval 1 有四四禁手
+ */
+int FourBan(int x_row, int y_column)
+{
+    char chess[10]; //棋子周围情况, 0:空棋盘; 1:黑棋; 2:白棋; 4:无棋盘;
+    int i, x, y, count = 0; //count为活三/跳三的数, 范围: 0~4
+
+    //'-'横着方向禁手规则
+    x = x_row;          //获取刚下棋坐标的开始循环坐标
+    y = y_column - 4;   //x是行; y是列;
+    strcpy_s(chess, sizeof(chess) / sizeof(chess[0]), "444444444");//初始化落子周围棋盘状态
+    for (i = 0; i < 9; y++, i++) {
+        if (y < 0 || y >= COLUMN) //超出棋盘则跳出
+            continue;
+        chess[i] = Board[x][y]%10 + 48;
+    }
+    if (NULL != strstr(chess, "011110") || NULL != strstr(chess, "10111") || NULL != strstr(chess, "11011") || \
+        NULL != strstr(chess, "11101") || NULL != strstr(chess, "011112") || NULL != strstr(chess, "011114") || \
+        NULL != strstr(chess, "211110") || NULL != strstr(chess, "411110")) {
+        count++;
+    }
+
+    //'|'竖着方向禁手规则
+    x = x_row - 4;        //获取刚下棋坐标的开始循环坐标
+    y = y_column;         //x是行; y是列;
+    strcpy_s(chess, sizeof(chess) / sizeof(chess[0]), "444444444");//初始化落子周围棋盘状态
+    for (i = 0; i < 9; x++, i++) {
+        if (x < 0 || x >= ROW) //超出棋盘则跳出
+            continue;
+        chess[i] = Board[x][y]%10 + 48;
+    }
+    if (NULL != strstr(chess, "011110") || NULL != strstr(chess, "10111") || NULL != strstr(chess, "11011") || \
+        NULL != strstr(chess, "11101") || NULL != strstr(chess, "011112") || NULL != strstr(chess, "011114") || \
+        NULL != strstr(chess, "211110") || NULL != strstr(chess, "411110")) {
+        count++;
+    }
+
+    //'/'斜杠方向禁手规则
+    x = x_row - 4;          //获取刚下棋坐标的开始循环坐标
+    y = y_column + 4;       //x是行; y是列;
+    strcpy_s(chess, sizeof(chess) / sizeof(chess[0]), "444444444");//初始化落子周围棋盘状态
+    for (i = 0; i < 9; x++, y--, i++) {
+        if (x < 0 || x >= ROW || y < 0 || y >= COLUMN) //超出棋盘则跳出
+            continue;
+        chess[i] = Board[x][y]%10 + 48;
+    }
+    if (NULL != strstr(chess, "011110") || NULL != strstr(chess, "10111") || NULL != strstr(chess, "11011") || \
+        NULL != strstr(chess, "11101") || NULL != strstr(chess, "011112") || NULL != strstr(chess, "011114") || \
+        NULL != strstr(chess, "211110") || NULL != strstr(chess, "411110")) {
+        count++;
+    }
+
+    //'\'反斜杠方向禁手规则
+    x = x_row - 4;          //获取刚下棋坐标的开始循环坐标
+    y = y_column - 4;       //x是行; y是列;
+    strcpy_s(chess, sizeof(chess) / sizeof(chess[0]), "444444444");//初始化落子周围棋盘状态
+    for (i = 0; i < 9; x++, y++, i++) {
+        if (x < 0 || x >= ROW || y < 0 || y >= COLUMN) //超出棋盘则跳出
+            continue;
+        chess[i] = Board[x][y]%10 + 48;
+    }
+    if (NULL != strstr(chess, "011110") || NULL != strstr(chess, "10111") || NULL != strstr(chess, "11011") || \
+        NULL != strstr(chess, "11101") || NULL != strstr(chess, "011112") || NULL != strstr(chess, "011114") || \
+        NULL != strstr(chess, "211110") || NULL != strstr(chess, "411110")) {
+        count++;
+    }
+
+    return count > 1 ? 1 : 0;  //若超过1个活四/冲四/跳四, 返回1; 否则返回0
+}
+
+/**
+ * @brief 长连禁手检查
+ * @param[in] x_row    要检查点的行坐标
+ * @param[in] y_column 要检查点的列坐标
+ * @retval 0 无禁手
+ * @retval 1 有长连禁手
+ */
+int LongBan(int x_row, int y_column)
+{
+    int m[2] = {x_row,y_column};
+    int nums[4];
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        nums[i] = directionCount(m, BLACK, i) + directionCount(m, BLACK, i + 4);
+    }
+    int fiveInLine = (nums[0] > 4) || (nums[1] > 4) || (nums[2] > 4) || (nums[3] > 4);
+    int longline = (nums[0] > 5) || (nums[1] > 5) || (nums[2] > 5) || (nums[3] > 5);
+}
+
