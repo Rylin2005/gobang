@@ -29,7 +29,7 @@ int judgeWin(int m[], int color)
 	{
 		nums[i] = directionCount(m, color, i) + directionCount(m, color, i + 4);
 	}
-	int fiveInLine = (nums[0] > 4) || (nums[1] > 4) || (nums[2] > 4) || (nums[3] > 4);
+	int fiveInLine = (nums[0] > 3) || (nums[1] > 3) || (nums[2] > 3) || (nums[3] > 3);
     if (fiveInLine == 0) {
         return 0;
     }
@@ -46,7 +46,7 @@ int judgeWin(int m[], int color)
  * @brief 计算某一方向上的连子数量
  * @param[in] m (x,y)数对
  * @param[in] color 棋子颜色常量（BLACK or WHITE）
- * @param[in] dir 代表计数的方向，分别为1，2，3，4
+ * @param[in] dir 代表计数的方向，为0-7八个方向
  * @retval 连子数量
  */
 int directionCount(int m[], int color, int dir)
@@ -428,7 +428,10 @@ int LongBan(int x_row, int y_column)
     {
         nums[i] = directionCount(m, BLACK, i) + directionCount(m, BLACK, i + 4);
     }
-    int fiveInLine = (nums[0] > 4) || (nums[1] > 4) || (nums[2] > 4) || (nums[3] > 4);
-    int longline = (nums[0] > 5) || (nums[1] > 5) || (nums[2] > 5) || (nums[3] > 5);
+    int longline = (nums[0] > 4) || (nums[1] > 4) || (nums[2] > 4) || (nums[3] > 4);
+    if (longline == 1)
+        return 1;
+    else 
+        return 0;
 }
 
