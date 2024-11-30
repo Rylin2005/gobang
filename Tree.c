@@ -9,8 +9,8 @@
 */
 void Init_Tree(ChessTree* cht, int xp, int yp, int col)
 {
-	cht->alpha = -100000000;
-	cht->beta = 100000000;
+	cht->alpha = -INF;
+	cht->beta = INF;
 	cht->color = col;
 	cht->xxPos = xp;
 	cht->yyPos = yp;

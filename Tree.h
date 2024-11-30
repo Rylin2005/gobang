@@ -8,8 +8,8 @@
  * @param int xxPos 该结点落子的x坐标
  * @param int yyPos 该结点落子的y坐标
  * @param int color 该结点的落子颜色
- * @param int depth 树的深度
- * @param Node* children 该结点的子结点数组指针
+ * @param int depth 结点的深度
+ * @param Node* children 该结点的子结点*数组指针*
  * @param Node* father 该结点的父节点指针
  * @param int child_num 子结点的个数
  */
