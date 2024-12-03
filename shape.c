@@ -1,5 +1,6 @@
 #include "shape.h"
 
+
 void readline(int line[], int m[], int color, int dir)
 {
 	for (int i = -4; i < 5; i++)
@@ -26,16 +27,22 @@ void readline(int line[], int m[], int color, int dir)
 	}
 }
 
+
+
+
 int shape_compare(int a1[], int a2[], int size1, int size2)
 {
 	for (int i = 0; i < size1 - size2 + 1; i++)
 	{
-		int eq = 1;
-		for (int j = 0; j < size2; j++)
+		int j;
+		for (j = 0; j < size2; j++)
 		{
-			eq *= (a1[i + j] == a2[j]);
+			if (a1[i+j]!=a2[j])
+			{
+				break;
+			}
 		}
-		if (eq)return 1;
+		if (j == size2)return 1;
 	}
 	return 0;
 }

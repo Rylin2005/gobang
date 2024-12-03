@@ -14,3 +14,7 @@ int BanMove(int x_row, int y_column);
 int ThreeBan(int x_row, int y_column);
 int FourBan(int x_row, int y_column);
 int LongBan(int x_row, int y_column);
+
+
+
+

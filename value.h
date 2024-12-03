@@ -9,3 +9,10 @@
 #define INF 100000000
 
 #define MAX_CHILD 255
+
+#define FIVE INF
+#define LIVEFOUR INF
+#define CHONGFOUR 10000
+#define LIVETHREE 10000
+#define SLEEPTHREE 100
+#define LIVETWO 100
