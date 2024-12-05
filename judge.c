@@ -6,7 +6,7 @@
 int black = 1;
 int none = 0;
 
-int directions[8][2] = { {1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1} };
+extern int directions[8][2];
 
 /**
  * @brief 判断落子后的胜负

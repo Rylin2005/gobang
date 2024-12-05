@@ -1,6 +1,8 @@
 #pragma once
 #include "Tree.h"
 
+void qsort(struct Node* a, int begin, int end);
+void Swap(struct Node* a, struct Node* b);
 
 //对子结点数组按结点的score排序
 void qsort(struct Node* a, int begin, int end)
@@ -21,10 +23,10 @@ void qsort(struct Node* a, int begin, int end)
         while (left < right && a[left].score <= a[keyi].score) {
             left++;
         }
-        Swap(&a[left], &a[right]);
+        Swap(&(a[left]), &(a[right]));
     }
  
-    Swap(&a[left], &a[keyi]);
+    Swap(&(a[left]), &(a[keyi]));
     keyi = left;
  
     //区间划分成: [begin,keyi-1]  keyi  [keyi+1,end]

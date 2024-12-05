@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="chessAI.h" />
     <ClInclude Include="judge.h" />
+    <ClInclude Include="quick_sort.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="value.h" />

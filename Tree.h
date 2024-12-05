@@ -25,7 +25,7 @@ typedef struct Node
 	int depth;
 	int score;
 	struct Node* children;
-	struct Node* father
+	struct Node* father;
 }ChessTree;
 
 void Init_Tree(ChessTree* cht, int xp, int yp, int col);

@@ -3,34 +3,34 @@
 #include "judge.h"
 
 extern int Board[SIZE][SIZE];
-int directions[8][2] = { {1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1} };
+
+extern int directions[8][2];
 
 
+extern int liveFour1[6];
 
-int liveFour1[6] = { 0,2,2,2,2,0 };
+extern int chongFour1[5];
+extern int chongFour2[6];
+extern int chongFour3[6];
+extern int chongFour4[5];
+extern int chongFour5[5];
 
-int chongFour1[5] = { 2,2,0,2,2 };
-int chongFour2[6] = { 0,2,2,2,2,1 };
-int chongFour3[6] = { 1,2,2,2,2,0 };
-int chongFour4[5] = { 2,0,2,2,2 };
-int chongFour5[5] = { 2,2,2,0,2 };
+extern int liveThree1[5];
+extern int liveThree2[6];
+extern int liveThree3[6];
 
-int liveThree1[5] = { 0,2,2,2,0 };
-int liveThree2[6] = { 0,2,2,0,2,0 };
-int liveThree3[6] = { 0,2,0,2,2,0 };
+extern int sleepThree1[5];
+extern int sleepThree2[6];
+extern int sleepThree3[6];
+extern int sleepThree4[6];
+extern int sleepThree5[6];
+extern int sleepThree6[5];
+extern int sleepThree7[5];
 
-int sleepThree1[5] = { 2,0,2,0,2 };
-int sleepThree2[6] = { 1,2,2,0,2,0 };
-int sleepThree3[6] = { 0,2,0,2,2,1 };
-int sleepThree4[6] = { 1,2,0,2,2,0 };
-int sleepThree5[6] = { 0,2,2,0,2,1 };
-int sleepThree6[5] = { 2,2,0,0,2 };
-int sleepThree7[5] = { 2,0,0,2,2 };
-
-int liveTwo1[5] = { 0,0,2,2,0 };
-int liveTwo2[5] = { 0,2,2,0,0 };
-int liveTwo3[5] = { 0,2,0,2,0 };
-int liveTwo4[6] = { 0,2,0,0,2,0 };
+extern int liveTwo1[5];
+extern int liveTwo2[5];
+extern int liveTwo3[5];
+extern int liveTwo4[6];
 
 /**********************************ÆåÐÎµÄÅÐ¶Ï**********************************/
 

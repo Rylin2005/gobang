@@ -1,7 +1,5 @@
 #include "chessAI.h"
-#include "shape.h"
-#include "judge.h"
-#include "quick_sort.h"
+
 
 
 
