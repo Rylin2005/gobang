@@ -7,6 +7,7 @@ int Board[SIZE][SIZE];
 int directions[8][2] = { {1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1} };
 
 //---------
+
 int liveFour1[6] = { 0,2,2,2,2,0 };
 
 int chongFour1[5] = { 2,2,0,2,2 };
@@ -31,7 +32,6 @@ int liveTwo1[5] = { 0,0,2,2,0 };
 int liveTwo2[5] = { 0,2,2,0,0 };
 int liveTwo3[5] = { 0,2,0,2,0 };
 int liveTwo4[6] = { 0,2,0,0,2,0 };
-
 //----------
 
 void InitBoardArray();                        //≥ı ºªØø’∆Â≈Ã

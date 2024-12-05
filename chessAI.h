@@ -1,4 +1,8 @@
 #pragma once
+#ifndef CHESS_AI_H
+#define CHESS_AI_H
+
+
 
 #include "value.h"
 #include "Tree.h"
@@ -19,3 +23,4 @@ int evaluate();
 int score_for_generate(int m[], int color);
 int is_around(int x, int y); 
 
+#endif // !CHESS_AI_H

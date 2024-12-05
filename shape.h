@@ -1,4 +1,8 @@
 #pragma once
+#ifndef SHAPE_H
+#define SHAPE_H
+
+
 #include "value.h"
 #include "judge.h"
 
@@ -32,6 +36,8 @@ extern int liveTwo2[5];
 extern int liveTwo3[5];
 extern int liveTwo4[6];
 
+
+
 /**********************************ÆåÐÎµÄÅÐ¶Ï**********************************/
 
 
@@ -45,3 +51,5 @@ int chong_four(int m[], int color);
 int live_three(int m[], int color);
 int sleep_three(int m[], int color);
 int live_two(int m[], int color);
+
+#endif // !SHAPE_H
