@@ -6,8 +6,9 @@
 * @param xp 落子x坐标
 * @param yp 落子y坐标
 * @param col 落子颜色
+* @param 当前棋盘整体分数
 */
-void Init_Tree(ChessTree* cht, int xp, int yp, int col)
+void Init_Tree(ChessTree* cht, int xp, int yp, int col, int evalue)
 {
 	cht->alpha = -INF;
 	cht->beta = INF;
@@ -18,6 +19,7 @@ void Init_Tree(ChessTree* cht, int xp, int yp, int col)
 	cht->child_num = 0;
 	cht->children = NULL;
 	cht->father = NULL;
+	cht->evalue = evalue;
 }
 
 /**
@@ -35,5 +37,6 @@ void add_children(struct Node* father,struct Node* children, int count)
 		children[i].depth = father->depth;
 		children[i].father = father;
 		children[i].color = (father->color == BLACK) ? WHITE : BLACK;
+		children[i].evalue = INT_MIN;    //取INT_MIN代表当前为进行棋盘整体评估
 	}
 }

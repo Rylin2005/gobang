@@ -1,5 +1,6 @@
 #pragma once
 #include "value.h"
+#include <stdlib.h>
 
 /**
  * 棋盘树的结点 
@@ -10,6 +11,7 @@
  * @param int color 执棋颜色
  * @param int depth 结点的深度
  * @param int score 结点的分数（启发式搜索需要）
+ * @param int evalue 棋盘整体分数（整体评估需要）
  * @param Node* children 该结点的子结点*数组指针*
  * @param Node* father 该结点的父节点指针
  * @param int child_num 子结点的个数
@@ -24,9 +26,10 @@ typedef struct Node
 	int child_num;
 	int depth;
 	int score;
+	int evalue;
 	struct Node* children;
 	struct Node* father;
 }ChessTree;
 
-void Init_Tree(ChessTree* cht, int xp, int yp, int col);
+void Init_Tree(ChessTree* cht, int xp, int yp, int col, int evalue);
 void add_children(struct Node* father,struct Node* children, int count);
