@@ -16,7 +16,7 @@ int alphabeta(ChessTree* cht, struct Node* father, int deep, int alpha, int beta
 {
 	if (deep == 0)                                        //迭代深度为零时进行打分，取消落子并返回分值
 	{
-		int e = evaluate();
+		int e = evaluate(cht, father);
 		return e;
 	}
 	struct Node children[MAX_CHILD];
@@ -79,7 +79,7 @@ int generate(struct Node* father, struct Node* children)
 
 				//初始化children数组
 				struct Node child; 
-				Init_Tree(&child, i, j, Board[i][j]);
+				Init_Tree(&child, i, j, Board[i][j], INT_MIN);
 				children[count] = child;
 				children[count].score = score;
 			}
@@ -131,10 +131,78 @@ int is_around(int x, int y)
 	return 0;
 }
 
-int evaluate()
+/**
+* 评估棋盘整体分数
+* @param ChessTree* cht 根节点
+* @param Node* np 当前节点
+* @retval int 当前棋局整体评估值
+*/
+int evaluate(ChessTree* cht, struct Node* np)
 {
-	//评估棋盘整体分数
-	return 0;
+	if (np->evalue != INT_MIN)             //如果np结点已经做了整体评估
+		return np->evalue;                  //返回评估值
+	Board[np->xxPos][np->yyPos] = 0;       //退回该步
+	int past_value = evaluate(cht, np->father);       //获得上一个结点的评估值
+
+	int m[2] = { np->xxPos,np->yyPos };
+	int opcolor = (cht->color == BLACK) ? WHITE : BLACK;
+
+	//采用负极大值评估，即对手的分值取负值
+	int value_a = score_for_generate(m, cht->color) - score_for_generate(m, opcolor);   //未下子的值
+	Board[np->xxPos][np->yyPos] = np->color;											//落子
+	int value_b = score_for_generate(m, cht->color) - score_for_generate(m, opcolor);   //落子后的值
+	np->evalue = past_value + value_b - value_a;
+	return np->evalue;
+}
+
+/**
+* 在构建好的alpha-beta树中随机取一个最优解
+* @param ChessTree* cht 棋盘树
+* @retval Node 下一步应走的结点
+*/
+struct Node findMax(ChessTree* cht)
+{
+	int num = 0;
+	struct Node maxNode[10];
+	for (int i = cht->child_num - 1; i > -1; i--)
+	{
+		if (cht->alpha == cht->children[i].beta && num < 10)
+		{
+			maxNode[num] = cht->children[i];
+			num++;
+		}
+	}
+
+	srand((unsigned)time(NULL));
+	int n = rand() % num;
+	return maxNode[n];
+}
+
+
+void InitZobrist()
+{
+	srand((unsigned)time(NULL));
+	key_of_board = produce_rand32bit();
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			BlackZobrist[i][j] = produce_rand32bit();
+			WhiteZobrist[i][j] = produce_rand32bit();
+		}
+	}
+}
+
+unsigned int produce_rand32bit()
+{
+	unsigned int rand32bit = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		rand32bit = rand32bit << (8);
+		int a = rand() % 256;
+		rand32bit += a;
+	}
+	return rand32bit;
 }
 
 /*

@@ -1,7 +1,11 @@
-
+#include <limits.h>
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 #include "value.h"
 #include "judge.h"
+
+//---------
 
 int Board[SIZE][SIZE];
 int directions[8][2] = { {1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1} };
@@ -34,9 +38,16 @@ int liveTwo3[5] = { 0,2,0,2,0 };
 int liveTwo4[6] = { 0,2,0,0,2,0 };
 //----------
 
+
+
+//----------
+
 void InitBoardArray();                        //初始化空棋盘
 void DisplayBoard();	                      //显示棋盘
 int getInput(int m[], int color);			  //获取棋子位置输入并更新棋盘
+
+
+
 
 void main()
 {
@@ -46,6 +57,9 @@ void main()
 	int err = 1;            //是否存在非法输入
 	int moveCount = 0;      //棋盘已经进行的步数
 	int result = 0;         //结果
+	//测试 begin
+
+	//end
 
 	printf("五子棋(Gobang)人人对战，游戏规则：\n");
 	printf("1. 黑方(●)先下，白方(○)后下 \n");
@@ -270,4 +284,9 @@ int getInput(int m[], int color)
 		Board[m[0]][m[1]] = color;
 	return err;
 }
+
+
+
+
+
 
