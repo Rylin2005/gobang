@@ -1,12 +1,11 @@
 ﻿  chessAI.c
 D:\myworkspace\vs-repos\五子棋大作业\gobang\value.h(3,1): warning C4005: “NULL”: 宏重定义
 D:\visualstudioCommunity\VC\Tools\MSVC\14.37.32822\include\vcruntime.h(235,1): message : 参见“NULL”的前一个定义
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(4,47): warning C4030: 第一个形参表比第二个长
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(4,47): warning C4028: 形参 1 与声明不同
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(4,47): warning C4028: 形参 2 与声明不同
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(4,47): warning C4028: 形参 3 与声明不同
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(4,6): warning C4273: “qsort”: dll 链接不一致
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4030: 第一个形参表比第二个长
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 1 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 2 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 3 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,6): warning C4273: “qsort”: dll 链接不一致
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_search.h(60,23): message : 参见“qsort”的前一个定义
-D:\myworkspace\vs-repos\五子棋大作业\gobang\chessAI.c(176,18): warning C4013: “time”未定义；假设外部返回 int
-D:\myworkspace\vs-repos\五子棋大作业\gobang\chessAI.c(53): warning C4715: “alphabeta”: 不是所有的控件路径都返回值
+D:\myworkspace\vs-repos\五子棋大作业\gobang\chessAI.c(204,18): warning C4013: “time”未定义；假设外部返回 int
   gobang.vcxproj -> D:\myworkspace\vs-repos\五子棋大作业\gobang\x64\Debug\gobang.exe

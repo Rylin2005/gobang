@@ -1,6 +1,11 @@
 #pragma once
+#ifndef TREE_H
+#define TREE_H
+
+
 #include "value.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /**
  * ÆåÅÌÊ÷µÄ½áµã 
@@ -27,9 +32,12 @@ typedef struct Node
 	int depth;
 	int score;
 	int evalue;
-	struct Node* children;
+	struct Node* children[MAX_CHILD];
 	struct Node* father;
 }ChessTree;
 
 void Init_Tree(ChessTree* cht, int xp, int yp, int col, int evalue);
-void add_children(struct Node* father,struct Node* children, int count);
+void add_children(struct Node* father,struct Node* children[], int count);
+int free_tree(ChessTree* cht);
+
+#endif // !TREE_H

@@ -1,5 +1,5 @@
 #include "chessAI.h"
-
+keynum = 0;
 
 
 
@@ -19,36 +19,38 @@ int alphabeta(ChessTree* cht, struct Node* father, int deep, int alpha, int beta
 		int e = evaluate(cht, father);
 		return e;
 	}
-	struct Node children[MAX_CHILD];
+	struct Node* children[MAX_CHILD];
 	int count_children = generate(father, children);         //在father结点下产生下一步的结点数组（按重要性排序）
 	add_children(father, children, count_children);
 	if (father->color == cht->color)                                //alpha-beta主要递归代码
 	{
-		for (int i = count_children - 1; i > -1; i--)           //先深度搜索重要性高的结点
+		for (int i = 0; i < count_children ; i++)           //先深度搜索重要性高的结点
 		{
-			Board[children->xxPos][children->yyPos] = father->color;
-			int childvalue = alphabeta(cht, &children[i], deep - 1, father->alpha, father->beta);
+			Board[children[i]->xxPos][children[i]->yyPos] = father->color;
+			int childvalue = alphabeta(cht, children[i], deep - 1, father->alpha, father->beta);
 			father->alpha = (father->alpha < childvalue) ? childvalue : father->alpha;
-			Board[children->xxPos][children->yyPos] = 0;
+			Board[children[i]->xxPos][children[i]->yyPos] = 0;
 			if (beta<father->alpha)
 			{
 				return INF;
 			}
 		}
+		return father->alpha;
 	}
 	else
 	{
-		for (int i = count_children - 1; i > -1; i--)
+		for (int i = 0; i < count_children; i++)
 		{
-			Board[children->xxPos][children->yyPos] = father->color;
-			int childvalue = alphabeta(cht, &children[i], deep - 1, father->alpha, father->beta);
+			Board[children[i]->xxPos][children[i]->yyPos] = father->color;
+			int childvalue = alphabeta(cht, children[i], deep - 1, father->alpha, father->beta);
 			father->beta = (father->beta > childvalue) ? childvalue : father->beta;
-			Board[children->xxPos][children->yyPos] = 0;
+			Board[children[i]->xxPos][children[i]->yyPos] = 0;
 			if (alpha > father->beta)
 			{
 				return -INF;
 			}
 		}
+		return father->beta;
 	}
 }
 
@@ -58,16 +60,25 @@ int alphabeta(ChessTree* cht, struct Node* father, int deep, int alpha, int beta
 * @param Node* children 要产生的子结点数组
 * @retval int 子结点个数
 */
-int generate(struct Node* father, struct Node* children)
+int generate(struct Node* father, struct Node* children[])
 {
 	int count = 0;
+	struct Node* child_buf[SIZE * SIZE];
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++) 
 		{
-			if (Board[i][j]==0 && is_around(i, j))     //落子周围三格内无棋子默认不再考虑
+			if (Board[i][j]==0 && is_around(i, j) == 1)     //落子周围三格内无棋子默认不再考虑
 			{
-				if (father->color == WHITE && BanMove(i, j) != 0)break;    //避免下禁手
+				int isbanmove = 0;
+				if (father->color == BLACK)    //避免下禁手
+				{
+					Board[i][j] = BLACK;
+					if (BanMove(i, j) != 0)
+						isbanmove = 1;
+					Board[i][j] = 0;
+				}
+				if (isbanmove == 1)break;
 
 				//对该位置分别下白棋黑棋进行打分，其重要性为对两方的重要性之和
 				int score = 0;
@@ -76,17 +87,35 @@ int generate(struct Node* father, struct Node* children)
 				score += score_for_generate(m, Board[i][j]);
 				Board[i][j] = (father->color == BLACK) ? WHITE : BLACK;
 				score += score_for_generate(m, Board[i][j]);
+				Board[i][j] = 0;
 
 				//初始化children数组
-				struct Node child; 
-				Init_Tree(&child, i, j, Board[i][j], INT_MIN);
-				children[count] = child;
-				children[count].score = score;
+				struct Node* child = (ChessTree*)malloc(sizeof(ChessTree)); 
+				Init_Tree(child, i, j, Board[i][j], INT_MIN);
+				child_buf[count] = child;
+				child_buf[count] -> score = score;
+
+				//处理指针
+				child = NULL;
+				count++;
 			}
 		}
 	}
-	qsort(children, 0, count - 1);
-	return count;
+	qsort(child_buf, 0, count - 1);
+	for (int i = 0; i < count; i++)
+	{
+		if (i < MAX_CHILD)
+		{
+			children[i] = child_buf[i];
+		}
+		else
+		{
+			free(child_buf[i]);   //释放无用内存
+			child_buf[i] = NULL;
+		}
+			
+	}
+	return (count > MAX_CHILD) ? MAX_CHILD : count;
 }
 
 /**
@@ -103,12 +132,12 @@ int score_for_generate(int m[], int color)
 	int live3 = live_three(m, color);
 	int sleep3 = sleep_three(m, color);
 	int live2 = live_two(m, color);
-	if (chong4 > 1 || live3 > 1)return INF;
+	if (chong4 > 1 || live3 > 1)return LIVEFOUR;
 	return chong4 * CHONGFOUR + live3 * LIVETHREE + sleep3 * SLEEPTHREE + live2 * LIVETWO;
 }
 
 /**
-* 判断落子处周围3格内是否有棋子
+* 判断落子处周围3*3范围内是否有棋子
 * @param x 数组的列数
 * @param y 数组的行数
 * @retval 0 周围没有棋子
@@ -116,15 +145,14 @@ int score_for_generate(int m[], int color)
 */
 int is_around(int x, int y)
 {
-	for (int i = 0; i < 8; i++)
+	for (int i = -1; i < 2; i++)
 	{
-		for (int j = 1; j < 4; j++) 
+		for (int j = -1; j < 2; j++) 
 		{
-			int m0 = x + j * directions[i][0];
-			int m1 = y + j * directions[i][1];
-			if (Board[m0][m1]!=0)
+			if ((x + i) > -1 && (x + i) < SIZE && (y + j) > -1 && (y + j) < SIZE)
 			{
-				return 1;
+				if (Board[x + i][y + j] != 0 && !(i == 0 && j == 0))
+					return 1;
 			}
 		}
 	}
@@ -149,7 +177,7 @@ int evaluate(ChessTree* cht, struct Node* np)
 
 	//采用负极大值评估，即对手的分值取负值
 	int value_a = score_for_generate(m, cht->color) - score_for_generate(m, opcolor);   //未下子的值
-	Board[np->xxPos][np->yyPos] = np->color;											//落子
+	Board[np->xxPos][np->yyPos] = (np->color == BLACK) ? WHITE : BLACK;											//落子
 	int value_b = score_for_generate(m, cht->color) - score_for_generate(m, opcolor);   //落子后的值
 	np->evalue = past_value + value_b - value_a;
 	return np->evalue;
@@ -158,15 +186,15 @@ int evaluate(ChessTree* cht, struct Node* np)
 /**
 * 在构建好的alpha-beta树中随机取一个最优解
 * @param ChessTree* cht 棋盘树
-* @retval Node 下一步应走的结点
+* @retval Node* 下一步应走的结点
 */
-struct Node findMax(ChessTree* cht)
+struct Node* findMax(ChessTree* cht)
 {
 	int num = 0;
-	struct Node maxNode[10];
-	for (int i = cht->child_num - 1; i > -1; i--)
+	struct Node* maxNode[MAX_CHILD];
+	for (int i = 0; i < cht->child_num; i++)
 	{
-		if (cht->alpha == cht->children[i].beta && num < 10)
+		if (cht->alpha == cht->children[i]->beta && num < 10)
 		{
 			maxNode[num] = cht->children[i];
 			num++;

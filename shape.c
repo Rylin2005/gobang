@@ -51,7 +51,16 @@ int shape_compare(int a1[], int a2[], int size1, int size2)
 
 int five(int m[], int color)
 {
-	return judgeWin(m, color);
+	int nums[4];
+	for (int i = 0; i < 4; i++)
+	{
+		nums[i] = directionCount(m, color, i) + directionCount(m, color, i + 4);
+	}
+	int fiveInLine = (nums[0] > 3) || (nums[1] > 3) || (nums[2] > 3) || (nums[3] > 3);
+	if (fiveInLine == 0) {
+		return 0;
+	}
+	return 1;
 }
 
 int live_four(int m[], int color)

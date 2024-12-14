@@ -55,8 +55,10 @@ int directionCount(int m[], int color, int dir)
 	int x = m[0];
 	int y = m[1];
 
-	while (Board[x][y] == color && x<15 && x>-1 && y<15 && y>-1)
+	while (x<15 && x>-1 && y<15 && y>-1)
 	{
+        if (Board[x][y] != color)
+            break;
 		num++;
 		x += directions[dir][0];
 		y += directions[dir][1];

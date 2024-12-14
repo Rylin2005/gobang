@@ -130,6 +130,7 @@
     <ClCompile Include="chess.c" />
     <ClCompile Include="chessAI.c" />
     <ClCompile Include="judge.c" />
+    <ClCompile Include="quick_sort.c" />
     <ClCompile Include="shape.c" />
     <ClCompile Include="Tree.c" />
   </ItemGroup>
