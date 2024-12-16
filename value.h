@@ -8,12 +8,12 @@
 #define WHITEtem 22
 #define INF 100000000
 
-#define MAX_CHILD 20
+#define MAX_CHILD 10
 
 #define FIVE INF
 #define LIVEFOUR 1000000
 #define CHONGFOUR 10000
 #define LIVETHREE 10000
-#define SLEEPTHREE 100
+#define SLEEPTHREE 200
 #define LIVETWO 100
 

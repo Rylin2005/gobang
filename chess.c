@@ -37,8 +37,9 @@ int sleepThree5[6] = { 0,2,2,0,2,1 };
 int sleepThree6[5] = { 2,2,0,0,2 };
 int sleepThree7[5] = { 2,0,0,2,2 };
 
-int liveTwo1[5] = { 0,0,2,2,0 };
-int liveTwo2[5] = { 0,2,2,0,0 };
+int liveTwo1[6] = { 0,0,2,2,0,0 };
+int liveTwo2[6] = { 0,0,2,2,0,1 };
+int liveTwo5[6] = { 1,0,2,2,0,0 };
 int liveTwo3[5] = { 0,2,0,2,0 };
 int liveTwo4[6] = { 0,2,0,0,2,0 };
 //----------
@@ -56,6 +57,7 @@ void chess_ai(int color, int m[]);			  //gobang ai
 void push_evalue(int e);                      //将当前棋面分添加到buffer中
 int pop_evalue();							  //从buffer中pop出当前棋面分值
 void debug_for_chess_ai();                    //for debug
+void simulate_for_ai(int steps[][2], ChessTree* cht, int deep, struct Node* np);//展示ai模拟计算的最佳路径(for debug)
 
 
 void main()
@@ -325,6 +327,7 @@ void p_vs_c(int role)
 	int err = 1;            //是否存在非法输入
 	int moveCount = 0;      //棋盘已经进行的步数
 	int result = 0;         //结果
+	int steps[DEEP][2];
 
 	push_evalue(0);
 	while (ending)
@@ -348,18 +351,25 @@ void p_vs_c(int role)
 			}
 			else
 			{
-				debug_for_chess_ai();
-				printf("(电脑)-白棋落在：%c%d\n", input[1] + 'A', SIZE - 1 - input[0] + 1);
-				printf("(玩家)-黑方执棋,请落子：");
-				err = getInput(input, BLACKtem) && !(input[0] == 7 && input[1] == 7 && moveCount == 0);
-				if (err)
+				if (moveCount == 0)
 				{
-					int value_a = score_for_generate(input, WHITE) - score_for_generate(input, BLACK);   //未下子的值
-					Board[input[0]][input[1]] = BLACK;											//落子
-					int value_b = score_for_generate(input, WHITE) - score_for_generate(input, BLACK);   //落子后的值
-					int v = evalue_buf[bufp - 1];
-					push_evalue(v + value_b - value_a);
-					Board[input[0]][input[1]] = BLACKtem;
+					Board[input[0]][input[1]] = BLACK;
+				}
+				else
+				{
+					debug_for_chess_ai();
+					printf("(电脑)-白棋落在：%c%d\n", input[1] + 'A', SIZE - 1 - input[0] + 1);
+					printf("(玩家)-黑方执棋,请落子：");
+					err = getInput(input, BLACKtem) && !(input[0] == 7 && input[1] == 7 && moveCount == 0);
+					if (err)
+					{
+						int value_a = score_for_generate(input, WHITE) - score_for_generate(input, BLACK);   //未下子的值
+						Board[input[0]][input[1]] = BLACK;											//落子
+						int value_b = score_for_generate(input, WHITE) - score_for_generate(input, BLACK);   //落子后的值
+						int v = evalue_buf[bufp - 1];
+						push_evalue(v + value_b - value_a);
+						Board[input[0]][input[1]] = BLACKtem;
+					}
 				}
 			}
 		}
@@ -454,6 +464,14 @@ int pop_evalue()
 void debug_for_chess_ai()
 {
 	printf("当前棋盘分值：evalue_buf[%d]=%d\n",bufp - 1 , evalue_buf[bufp - 1]);
+}
+
+void simulate_for_ai(int steps[][2], ChessTree* cht, int deep, struct Node* np)
+{
+	for (int i = 0; i < np->child_num; i++)
+	{
+		
+	}
 }
 
 

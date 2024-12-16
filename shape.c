@@ -1,28 +1,29 @@
 #include "shape.h"
 
 
-void readline(int line[], int m[], int color, int dir)
+void readline(int line[], int m[], int color, int dir, int num)
 {
-	for (int i = -4; i < 5; i++)
+	for (int i = -num; i < num + 1; i++)
 	{
 		int m0 = m[0] + i * directions[dir][0];
 		int m1 = m[1] + i * directions[dir][1];
 		if (m0 < 0 || m0>14 || m1 < 0 || m1>14)
 		{
-			line[i + 4] = 1;
+			line[i + num] = 1;
+			break;
 		}
 		int co = Board[m0][m1];
 		if (co == color)
 		{
-			line[i + 4] = 2;    //同色棋子
+			line[i + num] = 2;    //同色棋子
 		}
 		else if (co == 0)
 		{
-			line[i + 4] = 0;
+			line[i + num] = 0;
 		}
 		else
 		{
-			line[i + 4] = 1;    //异色棋子
+			line[i + num] = 1;    //异色棋子
 		}
 	}
 }
@@ -69,7 +70,7 @@ int live_four(int m[], int color)
 	for (int i = 0; i < 4; i++)
 	{
 		int line[9] = { 0,0,0,0,0,0,0,0,0 };
-		readline(line, m, color, i);
+		readline(line, m, color, i, 4);
 		live4 += shape_compare(line, liveFour1, 9, 6);
 	}
 	return live4;
@@ -80,13 +81,13 @@ int chong_four(int m[], int color)
 	int chong4 = 0;
 	for (int i = 0; i < 4; i++)
 	{
-		int line[9] = { 0,0,0,0,0,0,0,0,0 };
-		readline(line, m, color, i);
-		chong4 = chong4 + shape_compare(line, chongFour1, 9, 5)
-			+ shape_compare(line, chongFour2, 9, 6)
-			+ shape_compare(line, chongFour3, 9, 6)
-			+ shape_compare(line, chongFour4, 9, 5)
-			+ shape_compare(line, chongFour5, 9, 5);
+		int line[11] = { 0,0,0,0,0,0,0,0,0 };
+		readline(line, m, color, i, 5);
+		chong4 = chong4 + shape_compare(line, chongFour1, 11, 5)
+			+ shape_compare(line, chongFour2, 11, 6)
+			+ shape_compare(line, chongFour3, 11, 6)
+			+ shape_compare(line, chongFour4, 11, 5)
+			+ shape_compare(line, chongFour5, 11, 5);
 	}
 	return chong4;
 }
@@ -97,7 +98,7 @@ int live_three(int m[], int color)
 	for (int i = 0; i < 4; i++)
 	{
 		int line[9] = { 0,0,0,0,0,0,0,0,0 };
-		readline(line, m, color, i);
+		readline(line, m, color, i, 4);
 		live3 = live3 + shape_compare(line, liveThree1, 9, 5)
 			+ shape_compare(line, liveThree2, 9, 6)
 			+ shape_compare(line, liveThree3, 9, 6);
@@ -111,7 +112,7 @@ int sleep_three(int m[], int color)
 	for (int i = 0; i < 4; i++)
 	{
 		int line[9] = { 0,0,0,0,0,0,0,0,0 };
-		readline(line, m, color, i);
+		readline(line, m, color, i, 4);
 		sleep3 = sleep3 + shape_compare(line, sleepThree1, 9, 5)
 			+ shape_compare(line, sleepThree2, 9, 6)
 			+ shape_compare(line, sleepThree3, 9, 6)
@@ -129,9 +130,10 @@ int live_two(int m[], int color)
 	for (int i = 0; i < 4; i++)
 	{
 		int line[9] = { 0,0,0,0,0,0,0,0,0 };
-		readline(line, m, color, i);
-		live2 = live2 + shape_compare(line, liveTwo1, 9, 5)
-			+ shape_compare(line, liveTwo2, 9, 5)
+		readline(line, m, color, i, 4);
+		live2 = live2 + shape_compare(line, liveTwo1, 9, 6)
+			+ shape_compare(line, liveTwo2, 9, 6)
+			+ shape_compare(line, liveTwo5, 9, 6)
 			+ shape_compare(line, liveTwo3, 9, 5)
 			+ shape_compare(line, liveTwo4, 9, 6);
 	}

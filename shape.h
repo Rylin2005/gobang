@@ -31,8 +31,9 @@ extern int sleepThree5[6];
 extern int sleepThree6[5];
 extern int sleepThree7[5];
 
-extern int liveTwo1[5];
-extern int liveTwo2[5];
+extern int liveTwo1[6];
+extern int liveTwo2[6];
+extern int liveTwo5[6];
 extern int liveTwo3[5];
 extern int liveTwo4[6];
 
@@ -41,7 +42,7 @@ extern int liveTwo4[6];
 /**********************************棋形的判断**********************************/
 
 
-void readline(int line[], int m[], int color, int dir);
+void readline(int line[], int m[], int color, int dir, int num);
 int shape_compare(int a1[], int a2[], int size1, int size2);
 
 /*      1.在所下的棋子周围判断      */

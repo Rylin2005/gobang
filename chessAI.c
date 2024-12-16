@@ -14,9 +14,18 @@ keynum = 0;
 */
 int alphabeta(ChessTree* cht, struct Node* father, int deep, int alpha, int beta)
 {
+	int m[2] = { father->xxPos,father->yyPos };
+	if (five(m, (father->color == BLACK) ? WHITE : BLACK))
+	{
+		if (father->color == cht->color)
+			return -INF;
+		else
+			return INF;
+	}
 	if (deep == 0)                                        //迭代深度为零时进行打分，取消落子并返回分值
 	{
 		int e = evaluate(cht, father);
+		//father->alpha = e; ////
 		return e;
 	}
 	struct Node* children[MAX_CHILD];
@@ -137,7 +146,7 @@ int score_for_generate(int m[], int color)
 }
 
 /**
-* 判断落子处周围3*3范围内是否有棋子
+* 判断落子处周围5*5范围内是否有棋子
 * @param x 数组的列数
 * @param y 数组的行数
 * @retval 0 周围没有棋子
@@ -145,13 +154,15 @@ int score_for_generate(int m[], int color)
 */
 int is_around(int x, int y)
 {
-	for (int i = -1; i < 2; i++)
+	for (int i = 1; i < 3; i++)
 	{
-		for (int j = -1; j < 2; j++) 
+		for (int j = 0; j < 8; j++) 
 		{
-			if ((x + i) > -1 && (x + i) < SIZE && (y + j) > -1 && (y + j) < SIZE)
+			int m0 = x + i * directions[j][0];
+			int m1 = y + i * directions[j][1];
+			if (m0 > -1 && m0<SIZE && m1>-1 && m1 < SIZE)
 			{
-				if (Board[x + i][y + j] != 0 && !(i == 0 && j == 0))
+				if (Board[m0][m1] != 0)
 					return 1;
 			}
 		}

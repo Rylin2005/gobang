@@ -1,11 +1,42 @@
-﻿  chessAI.c
+﻿  chess.c
 D:\myworkspace\vs-repos\五子棋大作业\gobang\value.h(3,1): warning C4005: “NULL”: 宏重定义
 D:\visualstudioCommunity\VC\Tools\MSVC\14.37.32822\include\vcruntime.h(235,1): message : 参见“NULL”的前一个定义
 D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4030: 第一个形参表比第二个长
 D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 1 与声明不同
 D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 2 与声明不同
 D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 3 与声明不同
-D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,6): warning C4273: “qsort”: dll 链接不一致
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_search.h(60,23): message : 参见“qsort”的前一个定义
-D:\myworkspace\vs-repos\五子棋大作业\gobang\chessAI.c(204,18): warning C4013: “time”未定义；假设外部返回 int
+D:\myworkspace\vs-repos\五子棋大作业\gobang\chess.c(330,6): warning C4101: “steps”: 未引用的局部变量
+  chessAI.c
+D:\myworkspace\vs-repos\五子棋大作业\gobang\value.h(3,1): warning C4005: “NULL”: 宏重定义
+D:\visualstudioCommunity\VC\Tools\MSVC\14.37.32822\include\vcruntime.h(235,1): message : 参见“NULL”的前一个定义
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4030: 第一个形参表比第二个长
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 1 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 2 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 3 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\chessAI.c(215,18): warning C4013: “time”未定义；假设外部返回 int
+  judge.c
+D:\myworkspace\vs-repos\五子棋大作业\gobang\value.h(3,1): warning C4005: “NULL”: 宏重定义
+D:\visualstudioCommunity\VC\Tools\MSVC\14.37.32822\include\vcruntime.h(235,1): message : 参见“NULL”的前一个定义
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(119,35): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(149,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(158,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(177,35): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(207,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(216,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(235,35): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(265,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(274,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(293,35): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(323,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(332,36): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
+  quick_sort.c
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4030: 第一个形参表比第二个长
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 1 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 2 与声明不同
+D:\myworkspace\vs-repos\五子棋大作业\gobang\quick_sort.h(8,49): warning C4028: 形参 3 与声明不同
+  shape.c
+  Tree.c
+  正在生成代码...
+D:\myworkspace\vs-repos\五子棋大作业\gobang\judge.c(42): warning C4715: “judgeWin”: 不是所有的控件路径都返回值
+D:\myworkspace\vs-repos\五子棋大作业\gobang\chess.c(462): warning C4715: “pop_evalue”: 不是所有的控件路径都返回值
   gobang.vcxproj -> D:\myworkspace\vs-repos\五子棋大作业\gobang\x64\Debug\gobang.exe
