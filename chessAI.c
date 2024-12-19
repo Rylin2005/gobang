@@ -18,17 +18,24 @@ int alphabeta(ChessTree* cht, struct Node* father, int deep, int alpha, int beta
 	if (five(m, (father->color == BLACK) ? WHITE : BLACK))
 	{
 		if (father->color == cht->color)
+		{
+			father->alpha = -INF;
 			return -INF;
+		}
 		else
+		{
+			father->beta = INF;
 			return INF;
+		}
 	}
 	if (deep == 0)                                        //迭代深度为零时进行打分，取消落子并返回分值
 	{
 		int e = evaluate(cht, father);
-		//father->alpha = e; ////
+		father->alpha = e; 
 		return e;
 	}
 	struct Node* children[MAX_CHILD];
+	for (int i = 0; i < MAX_CHILD; i++)children[i] = NULL;
 	int count_children = generate(father, children);         //在father结点下产生下一步的结点数组（按重要性排序）
 	add_children(father, children, count_children);
 	if (father->color == cht->color)                                //alpha-beta主要递归代码

@@ -57,7 +57,8 @@ void chess_ai(int color, int m[]);			  //gobang ai
 void push_evalue(int e);                      //将当前棋面分添加到buffer中
 int pop_evalue();							  //从buffer中pop出当前棋面分值
 void debug_for_chess_ai();                    //for debug
-void simulate_for_ai(int steps[][2], ChessTree* cht, int deep, struct Node* np);//展示ai模拟计算的最佳路径(for debug)
+void genPath(ChessTree* cht, int color);	  //展示ai模拟计算的最佳路径(for debug)
+void printPath(struct Node* np, int color);   //打印单独路径
 
 
 void main()
@@ -319,6 +320,7 @@ void p_vs_p()
 	}
 }
 
+
 void p_vs_c(int role)
 {
 	int color;              //当前执棋颜色
@@ -327,7 +329,6 @@ void p_vs_c(int role)
 	int err = 1;            //是否存在非法输入
 	int moveCount = 0;      //棋盘已经进行的步数
 	int result = 0;         //结果
-	int steps[DEEP][2];
 
 	push_evalue(0);
 	while (ending)
@@ -431,15 +432,17 @@ void p_vs_c(int role)
 void chess_ai(int color, int m[])
 {
 	ChessTree* cht = (ChessTree*)malloc(sizeof(ChessTree));
-	Init_Tree(cht, -1, -1, color, evalue_buf[bufp - 1]);
+	Init_Tree(cht, m[0], m[1], color, evalue_buf[bufp - 1]);
 	alphabeta(cht, cht, DEEP, INF, INF);
 	struct Node* max = findMax(cht);
 	Board[max->xxPos][max->yyPos] = (color == BLACK) ? BLACKtem : WHITEtem;
 	push_evalue(max->evalue);
 	m[0] = max->xxPos;
 	m[1] = max->yyPos;
+	genPath(cht, cht->color);   ////
 	max = NULL;
 	free_tree(cht);
+	getchar();  ////
 }
 
 void push_evalue(int e)
@@ -466,12 +469,51 @@ void debug_for_chess_ai()
 	printf("当前棋盘分值：evalue_buf[%d]=%d\n",bufp - 1 , evalue_buf[bufp - 1]);
 }
 
-void simulate_for_ai(int steps[][2], ChessTree* cht, int deep, struct Node* np)
-{
-	for (int i = 0; i < np->child_num; i++)
-	{
-		
-	}
+//根据根节点的color获取np结点的alpha或beta值
+inline geta_b(struct Node* np, int color) {
+	if (np->color == color)return np->alpha;
+	else return np->beta;
 }
+
+void genPath(ChessTree* cht, int color)
+{
+	if (cht->child_num == 0) {
+		printPath(cht, color);
+		return;
+	}
+	
+	for (int i = 0; i < cht->child_num; i++)
+	{
+		if (geta_b(cht, color) == geta_b(cht->children[i], color))
+		{
+			genPath(cht->children[i], color);
+		}
+	}
+	//for (int i = 0; i < cht->child_num; i++)
+		//printf(" ");
+}
+
+void printPath(struct Node* np, int color)
+{
+	struct Node* s = np;
+	int path[DEEP][2];
+	int step = s->depth;
+	int score = geta_b(np, color);
+	while (s->father != NULL)
+	{
+		path[s->depth - 1][0] = s->xxPos;
+		path[s->depth - 1][1] = s->yyPos;
+		s = s->father;
+	}
+	for (int i = 0; i < step; i++)
+	{
+		printf("%c%d-", path[i][1] + 'A', SIZE - 1 - path[i][0] + 1);
+	}
+	printf("--Path value:%d\n", score);
+}
+
+
+
+
 
 
